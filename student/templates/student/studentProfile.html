@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css%}<link rel="stylesheet" href="{% static 'student/css/style.css' %}">{% endblock %}
+{% block title %}Student Profile{% endblock %}
+
+
+{% block body %}
+    <h3 class="text-center mt-5">Student Profile</h3>
+    <div class="container mt-5" style="height: 90vh; width: 100%;">
+        <div class="row">
+            <!-- Profile Card -->
+            <div class="col-md-8">
+                <div class="card shadow-lg">
+                    <div class="card-body">
+                        <h3 class="card-title text-center">{{ student.name }}</h3>
+                        <p class="card-text"><strong>Email:</strong> {{ student.email }}</p>
+                        <p class="card-text"><strong>Phone:</strong> {{ student.phone }}</p>
+                        <h5 class="card-title">Courses Taken</h5>
+                        <ul class="list-group">
+                            {% for course in student.coursesTaken.all %}
+                                <li class="list-group-item">{{ course.name }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Back Button -->
+            <div class="col-md-4">
+                <div class="card d-flex justify-content-center align-items-center">
+                    <div class="card-body">
+                        <a href="{% url 'student_update' student.id %}" class="btn btn-warning">
+                            <i class="fas fa-arrow-left"></i> Edit
+                        </a>
+                        <a href="{% url 'student_delete' student.id %}" class="btn btn-danger">
+                            <i class="fas fa-arrow-left"></i> Remove
+                        </a>
+                        <a href="{% url 'home' %}" class="btn btn-primary btn">
+                            <i class="fas fa-arrow-left"></i> Home
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

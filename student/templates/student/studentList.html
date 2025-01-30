@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block css%}<link rel="stylesheet" href="{% static 'student/css/style.css' %}">{% endblock %}
+{% block title %}Student List{% endblock %}
+{% block body %}
+    <h3 class="text-center mt-5">Student List</h3>
+
+    <section class='cards mt-5' style="height: 90vh; width: 100%;">
+        <div class="container">
+            <div class="row">
+                {% for student in students %}
+                    <div class="col-3">
+                        <div class="card mb-3" style="max-width: 540px;">
+                            <div class="row g-0">
+                              <div class="col-md-12">
+                                <div class="card-body">
+                                  <h5 class="card-title mb-4 fw-bolder" style="color:rgb(50, 78, 239);"><i class="fa-solid fa-user-graduate"></i> {{ student.name }}</h5>
+                                  <p class="card-text">Email: {{ student.email }}</p>
+                                  <p class="card-text">Phone: {{ student.phone }}</p>
+                                  <p class="card-text">Courses Taken:</p>
+                                  {% for course in student.coursesTaken.all %}
+                                      {{ course.name }}
+                                  {% endfor %}
+                                  <br>
+                                  <a href="{% url 'student_profile' student.id %}" class="btn btn-warning mt-3 btn-sm">View Profile</a>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+    </section>
+{% endblock %}``
+
+
