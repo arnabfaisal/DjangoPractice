@@ -10,20 +10,22 @@
         <div class="container">
             <div class="row">
                 {% for student in students %}
-                    <div class="col-3">
-                        <div class="card mb-3" style="max-width: 540px;">
+                    <div class="col-3 mt-4">
+                        <div class="card mb-3 h-100 shadow bg-body rounded" style="max-width: 540px;">
                             <div class="row g-0">
                               <div class="col-md-12">
                                 <div class="card-body">
                                   <h5 class="card-title mb-4 fw-bolder" style="color:rgb(50, 78, 239);"><i class="fa-solid fa-user-graduate"></i> {{ student.name }}</h5>
                                   <p class="card-text">Email: {{ student.email }}</p>
                                   <p class="card-text">Phone: {{ student.phone }}</p>
-                                  <p class="card-text">Courses Taken:</p>
+                                  <p class="card-text">Courses Taken: {{ student.coursesTaken.count }}</p>
+                                  <p class="card-text text-truncate">
                                   {% for course in student.coursesTaken.all %}
                                       {{ course.name }}
                                   {% endfor %}
+                                  </p>
                                   <br>
-                                  <a href="{% url 'student_profile' student.id %}" class="btn btn-warning mt-3 btn-sm">View Profile</a>
+                                  <a href="{% url 'student_profile' student.id %}" class="btn btn-warning btn-sm">View Profile</a>
                                 </div>
                               </div>
                             </div>
