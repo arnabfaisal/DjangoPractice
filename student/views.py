@@ -12,7 +12,13 @@ class StudentRegistrationView(CreateView):
     template_name = 'student/studentRegistration.html'
     success_url = reverse_lazy('home')
 
-    def form_valid(self, form):
+    def form_valid(self, form): 
+        email = form.cleaned_data.get('email')
+        phone = form.cleaned_data.get('phone')
+        if Student.objects.filter(Q(email=email) | Q(phone=phone)).exists():
+            messages.error(self.request, "Email or phone number already exists for another student!")
+            return self.form_invalid(form)
+        
         form.save()
         messages.success(self.request, "Student has been successfully registered!")
         return super().form_valid(form)
@@ -45,7 +51,7 @@ class StudentUpdateView(UpdateView):
             messages.error(self.request, "Email or phone number already exists for another student!")
             return self.form_invalid(form)
         
-        
+
         response = super().form_valid(form)
         messages.success(self.request, "Student has been successfully updated!")
         return response
