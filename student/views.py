@@ -4,6 +4,8 @@ from .forms import StudentRegistrationForm
 from .models import Student 
 from django.urls import reverse_lazy
 from django.contrib import messages
+from django.db.models import Q
+
 # Create your views here.
 class StudentRegistrationView(CreateView):
     form_class = StudentRegistrationForm
@@ -36,6 +38,14 @@ class StudentUpdateView(UpdateView):
     template_name = 'student/studentRegistration.html'
     success_url = reverse_lazy('home')
     def form_valid(self, form):
+        student = self.get_object()
+        email = form.cleaned_data.get('email')
+        phone = form.cleaned_data.get('phone')
+        if Student.objects.filter(Q(email=email) | Q(phone=phone)).exclude(pk=student.pk).exists():
+            messages.error(self.request, "Email or phone number already exists for another student!")
+            return self.form_invalid(form)
+        
+        
         response = super().form_valid(form)
         messages.success(self.request, "Student has been successfully updated!")
         return response
